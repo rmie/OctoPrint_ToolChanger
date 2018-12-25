@@ -9,13 +9,20 @@ import numpy as np
 import urllib
 
 
-class ToolChangerPlugin(octoprint.plugin.SettingsPlugin,
+class ToolChangerPlugin(octoprint.plugin.AssetPlugin,
+                        octoprint.plugin.SettingsPlugin,
                         octoprint.plugin.TemplatePlugin,
                         octoprint.plugin.SimpleApiPlugin):
+
+	def get_assets(self):
+		return dict(
+			js=['js/toolchanger.js']
+		)
 
 	def get_template_configs(self):
 		return [
 			dict(type='settings', custom_bindings=False),
+			dict(type='sidebar', custom_bindings=False),
 		]
 
 	def get_settings_defaults(self):
@@ -40,7 +47,7 @@ class ToolChangerPlugin(octoprint.plugin.SettingsPlugin,
 		return image[tl[1]:br[1], tl[0]:br[0]], center
 
 	def _estimate_focus(self, cropped, r1, r2):
-		image, center = self._crop_image(cropped, (2*r2, 2*r2))
+		image, center = self._crop_image(cropped, (2 * r2, 2 * r2))
 		# reduce image to size (r2,r2) and create grayscale image
 		gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
