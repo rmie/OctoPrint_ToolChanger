@@ -34,9 +34,10 @@ class ToolChangerPlugin(octoprint.plugin.SettingsPlugin,
 		return False
 
 	def _crop_image(self, image, size):
-		center = np.array((size[0], size[1])) / 2
-		topleft = np.array((image.shape[1], image.shape[0])) / 2 - center
-		return image[topleft[1]:topleft[1] + center[1], topleft[0]:topleft[0] + center[0]], center
+		center = np.array(size) / 2
+		tl = np.array((image.shape[1], image.shape[0])) / 2 - center
+		br = tl + size
+		return image[tl[1]:br[1], tl[0]:br[0]], center
 
 	def _estimate_focus(self, cropped, r1, r2):
 		image, center = self._crop_image(cropped, (2*r2, 2*r2))
@@ -81,7 +82,7 @@ class ToolChangerPlugin(octoprint.plugin.SettingsPlugin,
 
 		# crop the image down such that it fits into the viewport without scaling
 		cropped, center = self._crop_image(image, (width, height))
-		variance, masked = self._estimate_focus(cropped, r1, r2)
+		variance, _ = self._estimate_focus(cropped, r1, r2)
 		self._logger.debug('_api_command_image: variance {0}'.format(variance))
 
 		# add the circles
@@ -100,7 +101,7 @@ class ToolChangerPlugin(octoprint.plugin.SettingsPlugin,
 				height = int(request.args['height'])
 				r1 = int(request.args['r1']) if request.args.has_key('r1') else 50
 				r2 = int(request.args['r2']) if request.args.has_key('r2') else 100
-				cropped = self._api_get_image(width, height, r1, r2)
+				cropped, _ = self._api_get_image(width, height, r1, r2)
 				bytes = cv2.imencode('.png', cropped)[1]
 				response = flask.make_response(bytes.tostring())
 				response.headers.set('Content-Type', 'image/png')
