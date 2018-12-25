@@ -1,0 +1,20 @@
+<div id="tool_control">
+    <div class="row-fluid text-center">
+        <input type="checkbox" data-bind="checked: align">On/Off</input>
+        <button class="btn btn-primary">Inspect</button>
+        <button class="btn btn-primary">Register</button>
+    </div>
+    <div class="row-fluid">
+        {# TODO(rmie): enforce R2 > R1 #}
+        <div class="input-append span6">
+            <label for="radius_inner">R1</label>
+            <input class="input-mini text-right" type="number" id="R1" step="5" min="0"
+                   data-bind="value: R1"/>
+        </div>
+        <div class="input-append span6">
+            <label for="radius_outer">R2</label>
+            <input class="input-mini text-right" type="number" id="R2" step="5" min="0"
+                   data-bind="value: R2"/>
+        </div>
+    </div>
+</div>
