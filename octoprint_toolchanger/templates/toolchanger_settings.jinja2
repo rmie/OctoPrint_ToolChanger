@@ -1,0 +1,24 @@
+<form class="form-horizontal">
+    <ul class="nav nav-pills" id="toolchanger-settings">
+        <li><a href="#basic" data-toggle="tab">Basic</a></li>
+        <li><a href="#toolrack" data-toggle="tab">Tool Rack</a></li>
+        <li><a href="#gcode" data-toggle="tab">GCode</a></li>
+    </ul>
+    <div class="tab-content">
+        <!-- Basic -->
+        <div class="tab-pane active" id="basic">
+            <div class="control-group">
+                <label class="control-label">Camera URL</label>
+                <div class="controls">
+                    <input type="text" class="input-block-level" data-bind="value: settings.plugins.toolchanger.camera">
+                </div>
+            </div>
+        </div>
+        <!-- Tool Rack -->
+        <div class="tab-pane active" id="toolrack">
+        </div>
+        <!-- GCode -->
+        <div class="tab-pane active" id="gcode">
+        </div>
+    </div>
+</form>
